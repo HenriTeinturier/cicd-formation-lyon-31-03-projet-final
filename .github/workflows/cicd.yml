@@ -148,4 +148,4 @@ jobs:
           scp -P ${{ env.SERVER_PORT }} -r ./server ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
           scp -P ${{ env.SERVER_PORT }} -r ./dist ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
           ssh -p ${{ env.SERVER_PORT }} ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && sudo npm ci --omit=dev"
-          ssh -p ${{ env.SERVER_PORT }} ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && sudo pm2 startOrRestart ecosystem.config.js --env production && sudo pm2 save"
+          ssh -p ${{ env.SERVER_PORT }} ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
