@@ -42,3 +42,21 @@ jobs:
         if: ${{ matrix.npm_command == 'npm run test:ci' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  check-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+      - name: install dependances
+        run: npm ci
+      - name: Vérifier le code
+        run: npm run lint
+      - name: Vérifier les vulnérabilités
+        run: npm audit --production --audit-level=critical
