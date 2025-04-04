@@ -1,1 +1,2 @@
 ![Statut](https://github.com/HenriTeinturier/cicd-formation-lyon-31-03-projet-final/actions/workflows/cicd.yml/badge.svg)
+[![codecov](https://codecov.io/gh/HenriTeinturier/cicd-formation-lyon-31-03-projet-final/graph/badge.svg?token=BYGLPN58HD)](https://codecov.io/gh/HenriTeinturier/cicd-formation-lyon-31-03-projet-final)
