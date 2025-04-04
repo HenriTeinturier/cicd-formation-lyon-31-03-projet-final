@@ -15,6 +15,15 @@ jobs:
     defaults:
       run:
         working-directory: ./server
+    strategy:
+      fail-fast: true
+      matrix:
+        npm_command:
+          [
+            "npm run lint",
+            "npm audit --production --audit-level=critical",
+            "npm run test:ci",
+          ]
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -23,11 +32,6 @@ jobs:
         with:
           cache: "npm"
           cache-dependency-path: "./server/package-lock.json"
-      - name: install dependances
-        run: npm ci
-      - name: Vérifie code
-        run: npm run lint
-      - name: verifier dependances
-        run: npm audit --production --audit-level=critical
-      - name: Run tests
-        run: npm run test:ci
+      - name: tests
+        run: |
+          ${{ npm_command }}
