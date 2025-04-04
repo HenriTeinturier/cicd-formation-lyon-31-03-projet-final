@@ -1,0 +1,1 @@
+![Statut](https://github.com/HenriTeinturier/cicd-formation-lyon-31-03-projet-final/actions/workflows/cicd.yml/badge.svg)
