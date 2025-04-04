@@ -70,13 +70,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install node
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-projet/action.yml
         with:
-          cache: "npm"
-          cache-dependency-path: "./client/package-lock.json"
-      - name: Install dependencies
-        run: npm ci
+          working-directory: ./client
+      # - name: Install node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     cache: "npm"
+      #     cache-dependency-path: "./client/package-lock.json"
+      # - name: Install dependencies
+      #   run: npm ci
       - name: Build application frontend
         run: npm run build
       - name: Upload build frontend
