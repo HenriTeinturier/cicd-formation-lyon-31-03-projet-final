@@ -124,3 +124,24 @@ jobs:
           wait-on: http://localhost:4173
           wait-on-timeout: 60
           config: baseUrl=http://localhost:4173
+
+  deploy:
+    needs: ["test-e2e-frontend"]
+    runs-on: ubuntu-latest
+    env:
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      SERVER_USER: ${{ secrets.SERVER_USER}}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add - <<< "${{ secrets.SSH_KEY_VPS }}"
+          mkdir -p ~/.ssh
+          ssh-keyscan -H -p ${{ env.SERVER_PORT }} ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
+          scp -P ${{ env.SERVER_PORT }} -r ./server ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
+          scp -P ${{ env.SERVER_PORT }} -r ./dist ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
+          ssh -p ${{ env.SERVER_PORT }} ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && npm ci --omit=dev"
+          ssh -p ${{ env.SERVER_PORT }} ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && sudo pm2 startOrRestart ecosystem.config.js --env production && sudo pm2 save"
