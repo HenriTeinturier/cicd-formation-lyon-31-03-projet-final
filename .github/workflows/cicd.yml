@@ -42,7 +42,7 @@ jobs:
           run-audit: ${{ matrix.run-audit }}
           run-tests: ${{ matrix.run-tests }}
           codecov-upload: ${{ matrix.codecov-upload }}
-        secrets:
+          secrets:
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
 
   check-frontend:
