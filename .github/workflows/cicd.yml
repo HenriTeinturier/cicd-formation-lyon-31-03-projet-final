@@ -84,3 +84,37 @@ jobs:
         with:
           name: build-frontend
           path: ./client/dist
+
+  test-e2e-frontend:
+    needs: ["build-frontend", "check-tests-backend"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: Install dependencies
+        run: |
+          cd server
+          npm ci
+      - name: Download build frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: build-frontend
+          path: ./client/dist
+      - name: Start backend
+        run: |
+          cd server
+          npm start &
+      - name: Start E2e Test
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: client
+          browser: chrome
+          start: npm run preview
+          wait-on: http://localhost:4173
+          wait-on-timeout: 60
+          config: baseUrl=http://localhost:4173
