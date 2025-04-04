@@ -18,12 +18,13 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        npm_command:
-          [
-            "npm run lint",
-            "npm audit --production --audit-level=critical",
-            "npm run test:ci",
-          ]
+        include:
+          - name: verify code
+            npm_command: "npm run lint"
+          - name: Verify vulnerabilities
+            npm_command: "npm audit --production --audit-level=critical"
+          - name: run tests
+            npm_command: "npm run test:ci"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -34,5 +35,5 @@ jobs:
           cache-dependency-path: "./server/package-lock.json"
       - name: installation dependances
         run: npm ci
-      - name: tests
+      - name: ${{ matrix.name }}
         run: ${{ matrix.npm_command }}
