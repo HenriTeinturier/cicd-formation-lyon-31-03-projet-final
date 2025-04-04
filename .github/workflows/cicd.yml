@@ -35,5 +35,4 @@ jobs:
       - name: installation dependances
         run: npm ci
       - name: tests
-        run: |
-          ${{ npm_command }}
+        run: ${{ matrix.npm_command }}
