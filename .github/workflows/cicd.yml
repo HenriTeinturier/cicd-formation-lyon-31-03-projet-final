@@ -32,6 +32,8 @@ jobs:
         with:
           cache: "npm"
           cache-dependency-path: "./server/package-lock.json"
+      - name: installation dependances
+        run: npm ci
       - name: tests
         run: |
           ${{ npm_command }}
