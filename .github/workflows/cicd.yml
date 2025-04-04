@@ -37,3 +37,8 @@ jobs:
         run: npm ci
       - name: ${{ matrix.name }}
         run: ${{ matrix.npm_command }}
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        if: ${{ matrix.npm_command == 'npm run test:ci' }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
