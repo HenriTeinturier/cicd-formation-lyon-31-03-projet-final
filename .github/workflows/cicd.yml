@@ -70,7 +70,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node-projet/action.yml
+      - uses: ./.github/actions/setup-node-projet
         with:
           working-directory: ./client
       # - name: Install node
