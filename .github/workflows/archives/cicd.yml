@@ -45,21 +45,14 @@ jobs:
 
   check-frontend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: tests frontend
+        uses: ./.github/workflows/check-test.yml
         with:
-          cache: "npm"
-          cache-dependency-path: "./client/package-lock.json"
-      - name: install dependances
-        run: npm ci
-      - name: Vérifier le code
-        run: npm run lint
-      - name: Vérifier les vulnérabilités
-        run: npm audit --production --audit-level=critical
+          working-directory: ./client
+          run-lint: true
+          run-audit: true
 
   build-frontend:
     runs-on: ubuntu-latest
