@@ -147,5 +147,5 @@ jobs:
           ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
           scp -r ./server ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
           scp -r ./dist ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:/home/ubuntu/
-          ssh ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && npm ci --omit=dev"
-          ssh ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
+          ssh ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && source ~/.nvm/nvm.sh && npm ci --omit=dev"
+          ssh ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "cd /home/ubuntu/server && source ~/.nvm/nvm.sh && pm2 startOrRestart ecosystem.config.js --env production && pm2 save"
